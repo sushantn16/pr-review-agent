@@ -1,0 +1,56 @@
+name: pr-review-agent
+description: AI code review for pull requests with any OpenAI-compatible model. Incremental, with rules per repo; the model gets no tools.
+author: Sushant Nandwani
+branding:
+  icon: eye
+  color: blue
+
+inputs:
+  api-key:
+    description: Key for the model API. The default, the workflow's token, works with GitHub Models (needs `permissions: models: read`).
+    default: ${{ github.token }}
+  base-url:
+    description: Base URL of an OpenAI-compatible API, up to but not including /chat/completions.
+    default: https://models.github.ai/inference
+  model:
+    description: Model name as the API expects it.
+    default: openai/gpt-4.1-mini
+  github-token:
+    description: Token for reading the pull request and posting the review. Needs `pull-requests: write` and `contents: read`.
+    default: ${{ github.token }}
+  rules-file:
+    description: Review rules for this repository, read from the base branch so a pull request can't change them.
+    default: .github/review-rules.md
+  trigger-label:
+    description: Review only pull requests with this label. Empty reviews every pull request.
+    default: ""
+  max-findings:
+    description: The most inline comments in one review.
+    default: "10"
+  max-diff-chars:
+    description: Diff size sent to the model. Empty picks 20000 for GitHub Models (its free tier limits a request to about 8,000 tokens) and 150000 otherwise.
+    default: ""
+  exclude:
+    description: More files to skip, as globs separated by commas or new lines. Lockfiles, build output and minified files are always skipped.
+    default: ""
+  review-bots:
+    description: Also review pull requests opened by bots (Dependabot, Renovate, ...).
+    default: "false"
+  price-input:
+    description: Optional USD per million input tokens, to show the cost of each review.
+    default: ""
+  price-output:
+    description: Optional USD per million output tokens.
+    default: ""
+
+outputs:
+  findings:
+    description: Number of findings in this review.
+  reviewed-sha:
+    description: The head commit that was reviewed.
+  skipped:
+    description: Why no review ran, when one didn't.
+
+runs:
+  using: node24
+  main: src/index.ts

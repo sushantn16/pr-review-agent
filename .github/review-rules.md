@@ -1,0 +1,5 @@
+- The action has no runtime dependencies. Flag any new entry in `dependencies`.
+- Code must run on Node 24 with type stripping: no enums, namespaces or parameter properties, and relative imports end in `.ts`.
+- The model must never get a token, a key or a tool. Flag anything that puts a secret into a prompt or acts on model output beyond posting comments.
+- Every GitHub call needs the least permission that works; flag anything that needs more than `contents: read` and `pull-requests: write`.
+- New behaviour needs a test in `test/` that runs offline.

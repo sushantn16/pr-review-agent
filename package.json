@@ -1,0 +1,20 @@
+{
+  "name": "pr-review-agent",
+  "version": "1.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "description": "GitHub Action: AI code review for pull requests with any OpenAI-compatible model. Incremental, rules per repo, and the model gets no tools.",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "test": "node --disable-warning=ExperimentalWarning --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.5",
+    "typescript": "^7.0.2"
+  },
+  "packageManager": "pnpm@10.22.0"
+}
